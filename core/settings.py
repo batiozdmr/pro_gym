@@ -105,10 +105,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'gym',
-        'USER': 'postgres',
-        'PASSWORD': '1',
-        'HOST': 'localhost',
+        'NAME': 'des6h6ke24ista',
+        'USER': 'pwpmfummlcpaoj',
+        'PASSWORD': '4d8014248898f35789f6ca844f2b375e4ef70bf8d2d00023e416f2aa88e3846d',
+        'HOST': 'ec2-34-248-169-69.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
