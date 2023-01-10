@@ -1,0 +1,383 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <style>
+        @media (min-width: 576px) {
+            .d-sm-block-table {
+                display: table-cell !important;
+            }
+        }
+    </style>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-default">
+                    Detaylı Arama
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12 col-md-6 col-lg-3 mt-3">
+                                <label for="id_full_name">Ad Soyad</label>
+                                <input type="text" id="id_full_name" name="full_name">
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 mt-3">
+                                <label for="id_tc">TC</label>
+                                <input type="text" id="id_tc" name="tc">
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 mt-3">
+                                <label for="id_phone">Telefon</label>
+                                <input type="text" id="id_phone" name="phone">
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 mt-3">
+                                <label for="id_period_code">Dönem Kodu</label>
+                                <input type="text" id="id_period_code" name="period_code">
+                            </div>
+
+                            <div class="col-12 col-md-6 col-lg-2 mt-3">
+                                <label for="id_block">Blok</label>
+                                <select id="id_block" name="block" class="form-control" multiple="multiple"
+                                        style="height: 200px;">
+                                    <option value="">Seçiniz</option>
+                                    {% for community_block in community_block_list %}
+                                        <option value="{{ community_block }}">{{ community_block }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-2 mt-3">
+                                <label for="id_entrance">Giriş</label>
+                                <select id="id_entrance" name="entrance" class="form-control" multiple="multiple"
+                                        style="height: 200px;">
+                                    <option value="">Seçiniz</option>
+                                    {% for community_entrance in community_entrance_list %}
+                                        <option value="{{ community_entrance }}">{{ community_entrance }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-2 mt-3">
+                                <label for="id_apartment">Daire</label>
+                                <select id="id_apartment" name="apartment" class="form-control" multiple="multiple"
+                                        style="height: 200px;">
+                                    <option value="0">Seçiniz</option>
+                                    {% for community_apartment in community_apartment_list %}
+                                        <option value="{{ community_apartment }}">{{ community_apartment }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-2 mt-3">
+                                <label for="id_period">Dönem</label>
+                                <select id="id_period" name="period" class="form-control" multiple="multiple"
+                                        style="height: 200px;">
+                                    <option value="">Seçiniz</option>
+                                    {% for community_period in community_period_list %}
+                                        <option value="{{ community_period }}">{{ community_period }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-2 mt-3">
+                                <label for="id_m2">M2</label>
+                                <select id="id_m2" name="m2" class="form-control" multiple="multiple"
+                                        style="height: 200px;">
+                                    <option value="0">Seçiniz</option>
+                                    {% for community_m2 in community_m2_list %}
+                                        <option value="{{ community_m2 }}">{{ community_m2 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-md-6 col-lg-2 mt-3" style="height: 200px;">
+                                <label for="id_interview_status_id">Durum</label>
+                                <select id="id_interview_status_id" name="interview_status_id" class="form-control"
+                                        multiple="multiple" style="height: 200px;">
+                                    <option value="0">Seçiniz</option>
+                                    {% for interviews_statu in interviews_statu_list %}
+                                        <option value="{{ interviews_statu.id }}">{{ interviews_statu }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6 mt-3">
+                                <label for="id_note_2">Not</label>
+                                <textarea id="id_note_2" name="note_2"></textarea>
+                            </div>
+
+                            <div class="col-12 col-md-6 col-lg-6 mt-3" style="display: flex; align-items: flex-end;">
+                                <button type="submit" class="btn btn-success" style="width: 100%">ARA</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% if communities %}
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-default">
+                        Topluluk
+                    </div>
+                    <div class="card-body">
+                        <table class="display" id="myTable">
+                            <thead>
+                            <tr>
+
+                                <th class="d-none d-sm-block-table">Blok</th>
+                                <th class="d-none d-sm-block-table">Giris</th>
+                                <th class="d-none d-sm-block-table">Daire</th>
+                                <th class="d-none d-sm-block-table">Donem</th>
+                                <th class="d-none d-sm-block-table">M2</th>
+                                <th>Ad Soyad</th>
+                                <th class="d-none d-sm-block-table">Telefon 1</th>
+                                <th class="d-none d-sm-block-table">Telefon 2</th>
+                                <th class="d-none d-sm-block-table">Telefon 3</th>
+                                <th class="d-none d-sm-block-table">Durum - G.T</th>
+                                <th class="d-none d-sm-block-table">Satış Fiyatı</th>
+                                <th class="d-none d-sm-block-table">Kira Fiyatı</th>
+                                <th class="d-none d-sm-block-table">Not</th>
+                                <th class="d-none d-sm-block-table">D.T</th>
+                                <th>Islem</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for community in communities %}
+                                <tr class="gradeX">
+
+                                    <td class="d-none d-sm-block-table">{{ community.block }}</td>
+                                    <td class="d-none d-sm-block-table">{{ community.entrance }}</td>
+                                    <td class="d-none d-sm-block-table">{{ community.apartment }}</td>
+                                    <td class="d-none d-sm-block-table">{{ community.period }}</td>
+                                    <td class="d-none d-sm-block-table">{{ community.m2 }}</td>
+                                    <td>
+                                        <a href="{% url "services:detail-interview" community.id %}" target="_blank">
+                                            {{ community.full_name }}
+                                        </a>
+                                    </td>
+                                    <td class="d-none d-sm-block-table">{{ community.phone_one }}</td>
+                                    <td class="d-none d-sm-block-table">
+                                        {% if community.phone_two != 'None' %}{{ community.phone_two }}{% endif %}</td>
+                                    <td class="d-none d-sm-block-table">{% if community.phone_three != 'None' %}
+                                        {{ community.phone_three }}{% endif %}</td>
+                                    <td class="d-none d-sm-block-table">
+                                        {{ community.interview_last.interview_status.text }}<br>{{ community.interview_last.updated_at }}
+                                    </td>
+                                    <td class="d-none d-sm-block-table">{{ community.interview_last.price_sales }} TL
+                                    </td>
+                                    <td class="d-none d-sm-block-table">{{ community.interview_last.price_rent }} TL
+                                    </td>
+                                    <td class="d-none d-sm-block-table">{{ community.interview_last.note }}</td>
+                                    <td class="d-none d-sm-block-table">{{ community.circuit_start }}
+                                        - {{ community.circuit_finish }}</td>
+                                    <td>
+                                        <a href="#" data-toggle="modal" data-target="#islemModal{{ community.id }}"
+                                           class="btn btn-warning">
+                                            İşlemler
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% for community in communities %}
+        <div class="modal fade" id="islemModal{{ community.id }}" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">İŞLEMLER</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close"
+                                style="cursor: pointer;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <a href="{% url "services:detail-interview" community.id %}" class="btn btn-warning"
+                                       target="_blank"
+                                       style="width: -webkit-fill-available;">
+                                        Görüşmeler
+                                    </a>
+                                </div>
+                                {% if community_update_authority %}
+                                    <div class="col-12 mt-3">
+                                        <a href="#" data-toggle="modal"
+                                           data-target="#updateModal{{ community.id }}"
+                                           class="btn btn-info" role="button" data-title="kitty"
+                                           data-id="2" style="width: -webkit-fill-available;">Düzenle</a>
+                                    </div>
+                                {% endif %}
+                                {% if community_deletion_authority %}
+                                    <div class="col-12 mt-3">
+                                        <a href="#" data-toggle="modal"
+                                           data-target="#exampleModal{{ community.id }}"
+                                           class="btn btn-danger" role="button" data-title="kitty"
+                                           data-id="2"
+                                           style="width: -webkit-fill-available;">Sil</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal{{ community.id }}" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Kaydı Silmek İstediğinize Emin Misiniz?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Kapat
+                        </button>
+                        <a href="{% url 'services:community-delete' community.id %}"
+                           class="btn btn-primary">Sil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="updateModal{{ community.id }}" style="padding-right: 130px">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: 150%">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Topluluk Düzenle</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div data-scroll="true" data-height="460">
+                            <form class="form-horizontal" method="POST"
+                                  action="{% url 'services:community_update' community.id %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12 col-xl-4 mt-3">
+                                        <label for="add_id_full_name">Ad Soyad</label>
+                                        <input type="text" id="add_id_full_name" name="add_full_name"
+                                               value="{{ community.full_name }}">
+                                    </div>
+                                    <div class="col-12 col-xl-4 mt-3">
+                                        <label for="add_id_tc">TC</label>
+                                        <input type="text" id="add_id_tc" name="add_tc" value="{{ community.tc }}">
+                                    </div>
+
+                                    <div class="col-12 col-xl-4 mt-3">
+                                        <label for="add_id_phone_one">Telefon 1</label>
+                                        <input type="text" id="add_id_phone_one" name="add_phone_one"
+                                               value="{{ community.phone_one }}">
+                                    </div>
+                                    <div class="col-12 col-xl-4 mt-3">
+                                        <label for="add_id_phone_two">Telefon 2</label>
+                                        <input type="text" id="add_id_phone_two" name="add_phone_two"
+                                               value="{{ community.phone_two }}">
+                                    </div>
+                                    <div class="col-12 col-xl-4 mt-3">
+                                        <label for="add_id_phone_three">Telefon 3</label>
+                                        <input type="text" id="add_id_phone_three" name="add_phone_three"
+                                               value="{{ community.phone_three }}">
+                                    </div>
+                                    <div class="col-12 col-xl-2 mt-3">
+                                        <label for="add_id_block">Blok</label>
+                                        <input type="text" id="add_id_block" disabled name="add_block"
+                                               value="{{ community.block }}">
+                                    </div>
+                                    <div class="col-12 col-xl-2 mt-3">
+                                        <label for="add_id_entrance">Giriş</label>
+                                        <input type="text" id="add_id_entrance" disabled name="add_entrance"
+                                               value="{{ community.entrance }}">
+                                    </div>
+                                    <div class="col-12 col-xl-2 mt-3">
+                                        <label for="add_id_apartment">Bina</label>
+                                        <input type="text" id="add_id_apartment" disabled name="add_apartment"
+                                               value="{{ community.apartment }}">
+                                    </div>
+                                    <div class="col-12 col-xl-2 mt-3">
+                                        <label for="add_id_m2">m2</label>
+                                        <input type="text" id="add_id_m2" name="add_m2" disabled value="{{ community.m2 }}">
+                                    </div>
+                                    <div class="col-12 col-xl-2 mt-3">
+                                        <label for="add_id_period">Dönem</label>
+                                        <input type="text" id="add_id_period" disabled name="add_period"
+                                               value="{{ community.period }}">
+                                    </div>
+                                    <div class="col-12 col-xl-4 mt-3">
+                                        <label for="add_id_period_code">Dönem Kodu</label>
+                                        <input type="text" id="add_id_period_code" disabled name="add_period_code"
+                                               value="{{ community.period_code }}">
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-3">
+                                        <label for="add_id_circuit_start">Devre Başlangıcı</label>
+                                        <input type="text" id="add_id_circuit_start" name="add_circuit_start"
+                                               value="{{ community.circuit_start }}">
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-3">
+                                        <label for="add_id_circuit_finish">Devre Bitiş</label>
+                                        <input type="text" id="add_id_circuit_finish" name="add_circuit_finish"
+                                               value="{{ community.circuit_finish }}">
+                                    </div>
+                                    <div class="col-12 mt-3">
+                                        <label for="add_id_note">Not</label>
+                                        <textarea type="text" id="add_id_note"
+                                                  name="add_note">{{ community.note }}</textarea>
+                                    </div>
+
+                                </div>
+                                <button type="submit" class="btn btn-success mb-4 mt-4" style="float: right"
+                                        name="add_interview">Kaydet
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+{% block extra_script %}
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'lBfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                "paging": true,
+                "ordering": false,
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#islemModal' + {{ community_get_id }}).modal('show');
+        });
+    </script>
+{% endblock extra_script %}

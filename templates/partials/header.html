@@ -1,0 +1,93 @@
+{% load static %}
+<style>
+    body.nav-collapsed .toggle-block {
+        display: block !important;
+    }
+</style>
+<div class="top-bar light-top-bar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <a class="admin-logo light-logo d-flex" href="/" style="align-items: center;">
+                    <h1>
+                        <img alt="" src="{{ site_settings.favicon.url }}"
+                             class="d-none toggle-block logo-icon margin-r-10">
+                        <img alt="" src="{{ site_settings.logo.url }}"
+                             class="toggle-none hidden-xs" style="width: 100%;">
+                    </h1>
+                </a>
+                <div class="left-nav-toggle">
+                    <a href="#" class="nav-collapse"><i class="fa fa-bars"></i></a>
+                </div>
+                <div class="left-nav-collapsed">
+                    <a href="#" class="nav-collapsed"><i class="fa fa-bars"></i></a>
+                </div>
+                <div class="search-form hidden-xs">
+                    <form>
+                        <input class="form-control" placeholder="Search for..." type="text">
+                        <button class="btn-search" type="button"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <ul class="list-inline top-right-nav">
+                    <li class="dropdown avtar-dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <img alt="" class="rounded-circle" src="assets/img/avtar-2.png" width="30">
+                            {{ request.user }}
+                        </a>
+                        <ul class="dropdown-menu top-dropdown">
+                            <li>
+                                <a class="dropdown-item" href="javascript:%20void(0);"><i class="icon-logout"></i> Çıkış</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-sidebar-nav dark-navigation" style="background-color: #1a232d">
+    <div class="nano">
+        <div class="nano-content sidebar-nav">
+            <div class="card-body border-bottom text-center nav-profile">
+                <div class="notify setpos"><span class="heartbit"></span> <span class="point"></span></div>
+                <img alt="profile" class="margin-b-10  " src="{% static 'assets/img/avtar-2.png' %}" width="80">
+                <p class="lead margin-b-0 toggle-none">{{ request.user.get_full_name }}</p>
+            </div>
+
+            <ul class="metisMenu nav flex-column" id="menu">
+
+                {% for menu in header_menu %}
+                    <li class="nav-item {% if menu.id == menu_id %}active{% endif %}">
+                        <a class="nav-link" href="{{ menu.link }}">
+                            <i class="{{ menu.icon }}"></i>
+                            <span class="toggle-none">
+                                {{ menu.name }}
+                                {% if menu.children.all %}<span class="fa arrow"></span>{% endif %}
+                            </span>
+                        </a>
+                        {% if menu.children.all %}
+                            <ul class="nav-second-level nav flex-column " aria-expanded="false">
+                                {% for child in menu.children.all|dictsort:"alignment" %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ child.link }}">{{ child.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                {% if site_settings.devremulk_kod %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#devremulk_kod">
+                            <i class="fa fa-book"></i>
+                            <span class="toggle-none">
+                                Devremülk Kodları
+                        </span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
