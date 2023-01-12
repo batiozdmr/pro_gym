@@ -11,9 +11,9 @@
                 <a class="admin-logo light-logo d-flex" href="/" style="align-items: center;">
                     <h1>
                         <img alt="" src="{{ site_settings.favicon.url }}"
-                             class="d-none toggle-block logo-icon margin-r-10">
+                             class="d-none toggle-block logo-icon margin-r-10" style="    width: 100%;">
                         <img alt="" src="{{ site_settings.logo.url }}"
-                             class="toggle-none hidden-xs" style="width: 100%;">
+                             class="toggle-none hidden-xs" style="width: 90%;">
                     </h1>
                 </a>
                 <div class="left-nav-toggle">
@@ -77,16 +77,6 @@
                         {% endif %}
                     </li>
                 {% endfor %}
-                {% if site_settings.devremulk_kod %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#devremulk_kod">
-                            <i class="fa fa-book"></i>
-                            <span class="toggle-none">
-                                Devremülk Kodları
-                        </span>
-                        </a>
-                    </li>
-                {% endif %}
             </ul>
         </div>
     </div>

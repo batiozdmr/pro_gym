@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ali İzmir</title>
+    <title>POWERTRUM</title>
     <link rel="icon" href="{{ site_settings.favicon.url }}">
 
     <!-- Common Plugins -->
@@ -28,46 +28,46 @@
     {% endblock extra_css %}
 </head>
 {% if right_click_authority %}
-    <body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 {% else %}
-    <body>
+<body>
 {% endif %}
 
 {% if user.is_authenticated %}
-    {% block header %}
-        {% include 'partials/header.html' %}
-    {% endblock %}
+{% block header %}
+{% include 'partials/header.html' %}
+{% endblock %}
 {% endif %}
 <section class="main-content mt-5">
     {% block content %}
 
     {% endblock %}
     {% if user.is_authenticated %}
-        {% block footer %}
-            {% include 'partials/footer.html' %}
-        {% endblock %}
+    {% block footer %}
+    {% include 'partials/footer.html' %}
+    {% endblock %}
     {% endif %}
 </section>
 {% if site_settings.devremulk_kod and site_settings.devremulk_kod_d %}
-    <div class="modal fade" id="devremulk_kod">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 160%;">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Devremülk Kodları Ve Tarihleri</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            style="cursor: pointer;">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <img src="{{ site_settings.devremulk_kod.url }}" alt="" style="width: 100%"
-                         class="d-none d-sm-block">
-                    <img src="{{ site_settings.devremulk_kod_d.url }}" alt="" style="width: 60%"
-                         class="d-block d-sm-none">
-                </div>
+<div class="modal fade" id="devremulk_kod">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 160%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Devremülk Kodları Ve Tarihleri</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="cursor: pointer;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="{{ site_settings.devremulk_kod.url }}" alt="" style="width: 100%"
+                     class="d-none d-sm-block">
+                <img src="{{ site_settings.devremulk_kod_d.url }}" alt="" style="width: 60%"
+                     class="d-block d-sm-none">
             </div>
         </div>
     </div>
+</div>
 {% endif %}
 
 <!-- Common Plugins -->
@@ -100,37 +100,34 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-
-
-
 {% if messages %}
-    {% for message in messages %}
-        {% if forloop.last %}
-            <script>
-                Swal.fire({
-                    position: 'top-right',
-                    icon: '{{ message.tags }}',
-                    title: '{{ message|safe }}',
-                    showConfirmButton: false,
-                    timer: 2500
-                })
-            </script>
-        {% endif %}
-    {% endfor %}
+{% for message in messages %}
+{% if forloop.last %}
+<script>
+    Swal.fire({
+        position: 'top-right',
+        icon: '{{ message.tags }}',
+        title: '{{ message|safe }}',
+        showConfirmButton: false,
+        timer: 2500
+    })
+</script>
+{% endif %}
+{% endfor %}
 {% endif %}
 
 {% for error_field, error_message in form.errors.items %}
-    {% if forloop.last %}
-        <script>
-            Swal.fire({
-                position: 'top-right',
-                icon: 'warning',
-                title: '{{ error_message|striptags }}',
-                showConfirmButton: false,
-                timer: 2500
-            })
-        </script>
-    {% endif %}
+{% if forloop.last %}
+<script>
+    Swal.fire({
+        position: 'top-right',
+        icon: 'warning',
+        title: '{{ error_message|striptags }}',
+        showConfirmButton: false,
+        timer: 2500
+    })
+</script>
+{% endif %}
 {% endfor %}
 <!-- Datatables-->
 <script type="text/javascript" charset="utf8"
@@ -145,6 +142,39 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}
+{% for message in messages %}
+{% if forloop.last %}
+<script>
+    Swal.fire({
+        position: 'top-right',
+        icon: '{{ message.tags }}',
+        title: '{{ message|safe }}',
+        showConfirmButton: false,
+        timer: 2500
+    })
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+
+{% for error_field, error_message in form.errors.items %}
+{% if forloop.last %}
+<script>
+    Swal.fire({
+        position: 'top-right',
+        icon: 'warning',
+        title: '{{ error_message|striptags }}',
+        showConfirmButton: false,
+        timer: 2500
+    })
+</script>
+{% endif %}
+{% endfor %}
+
 {% block extra_script %}
 {% endblock extra_script %}
 </body>

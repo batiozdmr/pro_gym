@@ -1,13 +1,15 @@
+import qrcode as qrcode
+from PIL import Image
 from autoslug.settings import slugify
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
+from django.core.files import File
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
+from io import BytesIO
 from apps.common.fileUpload.userPath import userDirectoryPath
 from apps.common.fileUpload.validate import validateFileExtensionPhoto
 from apps.common.mixins import AuditMixin
-from apps.common.oneTextField import OneTextField
 from apps.parameter.models import SiteSettings
 
 BOOL_CHOICES = ((True, _('Evet')), (False, _('Hayır')))
@@ -35,18 +37,26 @@ class Profile(AuditMixin):
 
     address = models.TextField(null=True, blank=True, verbose_name=_('Adres'))
 
-    max_credit = models.IntegerField(default=100, null=True, verbose_name=_('Kredi Üst Uyarı Limiti'))
-
     slug = models.SlugField(max_length=500, null=True, blank=True, editable=False)
+
+    qr = models.ImageField(upload_to=userDirectoryPath, validators=[validateFileExtensionPhoto], blank=True,
+                           null=True, verbose_name=_('qr'))
 
     def __str__(self):
         return self.user.username
 
     def save(self, *args, **kwargs):
         self.slug = slugify(str(int(self.user.id) + 1000))
+        qr_image = qrcode.make(str(self.user))
+        qr_offset = Image.new("RGB", (310, 310), 'white')
+        qr_offset.paste(qr_image)
+        files_name = f'{self.user}-{self.id}qr.png'
+        stream = BytesIO()
+        qr_offset.save(stream, 'PNG')
+        self.qr.save(files_name, File(stream), save=False)
+        qr_offset.close()
         super(Profile, self).save(*args, **kwargs)
 
-    @property
     def get_profile_image_url(self):
         if self.profile_image and hasattr(self.profile_image, 'url'):
             return self.profile_image
@@ -72,4 +82,3 @@ class Profile(AuditMixin):
                        (_('sil'), _('Silme Yetkisi')),
                        (_('ekle'), _('Ekleme Yetkisi')),
                        (_('guncelle'), _('Güncelleme Yetkisi')))
-

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link href="{% static 'assets/lib/card-master/card.css' %}" rel="stylesheet">
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-default">
+                Taksit Ödeme
+            </div>
+            <div class="card-body" style="justify-content: center; display: flex;">
+                <div class="col-6" >
+                    <div class="card-wrapper"></div>
+                    <div class="form-container active">
+                        <form role="form" id="card-master">
+                            <div class="form-group">
+                                <input placeholder="Card number" type="tel" name="number" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input placeholder="Full name" type="text" name="name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input placeholder="MM/YY" type="tel" name="expiry" class="form-control">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input placeholder="CVC" type="number" name="cvc" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn col-md-12 btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_script %}
+<script src="{% static 'assets/lib/card-master/card.js' %}"></script>
+<script>
+    new Card({
+        form: document.querySelector('#card-master'),
+        container: '.card-wrapper'
+    });
+</script>
+{% endblock extra_script %}

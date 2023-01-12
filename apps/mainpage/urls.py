@@ -6,6 +6,7 @@ app_name = "mainpage"
 
 urlpatterns = [
     path('', index, name='index'),
-    path('file/demo-dosya/', file, name='file'),
+    path('taksit/', taksit, name='taksit'),
+    path('qr-cod/', qr, name='qr'),
 
 ]

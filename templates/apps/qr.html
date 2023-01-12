@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link href="{% static 'assets/lib/card-master/card.css' %}" rel="stylesheet">
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-default">
+                Salon Giriş Kartı
+            </div>
+            <div class="card-body" style="justify-content: center; display: flex;">
+                <div class="col-4">
+    <img src="{{ profile.qr.url }}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_script %}
+<script src="{% static 'assets/lib/card-master/card.js' %}"></script>
+<script>
+    new Card({
+        form: document.querySelector('#card-master'),
+        container: '.card-wrapper'
+    });
+</script>
+{% endblock extra_script %}

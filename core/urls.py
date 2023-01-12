@@ -3,9 +3,9 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 
-admin.site.site_header = 'ALİ İZMİR Yönetimi'
-admin.site.index_title = 'ALİ İZMİR Yönetimi'
-admin.site.site_title = 'ALİ İZMİR Yönetim Paneli'
+admin.site.site_header = 'POWERTRUM Yönetimi'
+admin.site.index_title = 'POWERTRUM Yönetimi'
+admin.site.site_title = 'POWERTRUM Yönetim Paneli'
 
 from django.urls import include
 from django.contrib import admin
