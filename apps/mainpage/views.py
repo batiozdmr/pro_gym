@@ -1,21 +1,30 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-
 from django.shortcuts import render
+
+from apps.training.models import TrainingUser
 
 
 @login_required
 def index(request):
+    training_list = TrainingUser.objects.filter(user=request.user, active=False)
     context = {
+        'training_list': training_list
     }
     return render(request, "index.html", context)
 
 
-def file(request):
+def taksit(request):
     context = {
 
     }
-    return render(request, "file.html", context)
+    return render(request, "apps/taksit.html", context)
+
+
+def qr(request):
+    context = {
+
+    }
+    return render(request, "apps/qr.html", context)
 
 
 def wrong403(request):

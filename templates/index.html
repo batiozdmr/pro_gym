@@ -3,10 +3,26 @@
 
 {% block content %}
 
-    <div class="container" style="height: 720px">
-        <div class="row">
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
 
+            <div class="card-body">
+                <section id="cd-timeline" class="cd-container">
+                    {% for item in training_list %}
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img cd-picture"></div>
+                        <div class="cd-timeline-content">
+                            <h2>{{ item.text }}</h2>
+                            {{ item.content|safe }}
+                            <a href="{% url 'training:form' item.id %}" class="btn btn-primary btn-rounded">Tamamla</a>
+                            <span class="cd-date">{{ item.set }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </section>
+            </div>
         </div>
     </div>
-
+</div>
 {% endblock %}

@@ -18,7 +18,7 @@ def menu(request):
     user_group = []
     if request.user.is_authenticated:
         user_group = Group.objects.filter(user=request.user)
-    header_menu = Menu.objects.filter(menu_type_id=1, groupList__in=user_group).order_by('alignment')
+    header_menu = Menu.objects.filter(menu_type_id=1).order_by('alignment')
     footer_menu = Menu.objects.filter(menu_type_id=2).order_by('alignment')
     lang = get_language()
     return {'header_menu': header_menu, 'footer_menu': footer_menu, 'lang': lang}
